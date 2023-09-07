@@ -43,6 +43,20 @@ const resolvers = {
             var gameIds = db.reviews.filter(r => r.author_id === parent.id).map(r => r.game_id);
             return db.games.filter(g => gameIds.includes(g.id));
         }
+    },
+    Mutation: {
+        addGame(_, args) {
+            let game = {
+                ...args.game,
+                id: Math.floor(Math.random() * 10000).toString()
+            }
+            db.games.push(game);
+            return game;
+        },
+        deleteGame(_, args) {
+            db.games = db.games.filter(g => g.id !== args.id)
+            return db.games;
+        }
     }
 }
 
